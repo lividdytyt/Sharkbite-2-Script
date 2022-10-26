@@ -102,4 +102,4 @@ UIS.InputBegan:Connect(function(key)
 end)
 
 notification("ESP", "Loaded!")
-notification("Auto Kill", "Loaded!")
+notification("Auto Kill", "Loaded! Keybind: B")
