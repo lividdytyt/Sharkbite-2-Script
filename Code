@@ -64,7 +64,7 @@ sharkFolder.ChildAdded:Connect(function(child)
             wait()
         until child:FindFirstChild("SharkMain").Mesh.Shark
 
-        wait(.5)
+        wait(1.5)
         if child:FindFirstChild("SharkMain").Mesh.Shark then
             createEsp(child:FindFirstChild("SharkMain").Mesh.Shark)
             isRemoved = false
