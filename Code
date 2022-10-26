@@ -81,7 +81,8 @@ sharkFolder.ChildRemoved:Connect(function(child)
     end
 end)
 
-UIS.InputBegan:Connect(function(key)
+UIS.InputBegan:Connect(function(key, isTyping)
+    if isTyping then return end
     if key.KeyCode == Enum.KeyCode.B then
         for i,v in pairs(sharkFolder:GetChildren()) do
             if v:IsA("Model") and v ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
