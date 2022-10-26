@@ -1,0 +1,105 @@
+-- Scripted by: TheNubReal on roblox --
+
+local sharkFolder = game:GetService("Workspace").Sharks
+local UIS = game:GetService("UserInputService")
+local CoreGui = game:GetService("StarterGui")
+
+local isRemoved = false
+
+local function createEsp(Name)
+    local Highlight = Instance.new("Highlight")
+
+    Highlight.Enabled = true
+    Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    Highlight.Name = "ESP_HIGHLIGHT"
+    Highlight.Parent = Name
+    Highlight.Adornee = Name
+end
+
+local function notification(name,txt)
+    CoreGui:SetCore("SendNotification", {
+        Title = name;
+        Text = txt;
+        Duration = 5;
+    })
+end
+
+local function removeEsp(Name)
+    Name:FindFirstChild("ESP_HIGHLIGHT"):Destroy()
+end
+
+for i,v in pairs(sharkFolder:GetChildren()) do
+    if v:IsA("Model") then
+        repeat 
+            wait()
+        until v:FindFirstChild("SharkMain")
+
+        repeat 
+            wait()
+        until v:FindFirstChild("SharkMain").Mesh
+
+        repeat 
+            wait()
+        until v:FindFirstChild("SharkMain").Mesh.Shark
+
+        wait(.1)
+        if v:FindFirstChild("SharkMain").Mesh.Shark then
+            createEsp(v:FindFirstChild("SharkMain").Mesh.Shark)
+            isRemoved = false
+        end
+    end
+end
+
+sharkFolder.ChildAdded:Connect(function(child)
+    if child:IsA("Model") then
+        repeat 
+            wait()
+        until child:FindFirstChild("SharkMain")
+
+        repeat 
+            wait()
+        until child:FindFirstChild("SharkMain").Mesh
+
+        repeat 
+            wait()
+        until child:FindFirstChild("SharkMain").Mesh.Shark
+
+        wait(.5)
+        if child:FindFirstChild("SharkMain").Mesh.Shark then
+            createEsp(child:FindFirstChild("SharkMain").Mesh.Shark)
+            isRemoved = false
+            notification("Shark", "Shark has been added in game.")
+        end
+    end
+end)
+
+sharkFolder.ChildRemoved:Connect(function(child)
+    if child:IsA("Model") then
+        removeEsp(child:FindFirstChild("SharkMain").Mesh.Shark)
+        isRemoved = true
+        notification("Shark", "Shark has died.")
+    end
+end)
+
+UIS.InputBegan:Connect(function(key)
+    if key.KeyCode == Enum.KeyCode.B then
+        for i,v in pairs(sharkFolder:GetChildren()) do
+            if v:IsA("Model") and v ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.SharkMain.Mesh.Shark.CFrame + Vector3.new(0,50,0)
+                notification("Auto Kill", "Killing shark..")
+               repeat
+                wait()
+                local args = {
+                    [1] = v
+                }
+            
+              game:GetService("ReplicatedStorage").Projectiles.Events.Weapons.HitScanHitReg:FireServer(unpack(args))
+               until isRemoved == true
+               print("Shark Killed! [AUTO KILL]")
+            end
+        end
+    end
+end)
+
+notification("ESP", "Loaded!")
+notification("Auto Kill", "Loaded!")
