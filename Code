@@ -85,7 +85,7 @@ UIS.InputBegan:Connect(function(key, isTyping)
     if isTyping then return end
     if key.KeyCode == Enum.KeyCode.B then
         for i,v in pairs(sharkFolder:GetChildren()) do
-            if v:IsA("Model") and v ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+            if v:IsA("Model") and v ~= nil and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
                 notification("Auto Kill", "Killing shark..")
                repeat
                 wait()
